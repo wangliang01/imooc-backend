@@ -30,3 +30,7 @@ Content-Type: application/json
 }
 
 
+### 请求静态资源
+GET http://localhost:3000/1.png HTTP/1.1
+
+
