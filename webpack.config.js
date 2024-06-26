@@ -30,4 +30,6 @@ const webpackconfig = {
   target: 'node'
 }
 
+console.log('webpackconfig', webpackconfig)
+
 module.exports = webpackconfig
