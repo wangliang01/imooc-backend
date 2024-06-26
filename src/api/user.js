@@ -3,7 +3,7 @@ module.exports = function (ctx) {
     name: 'user',
     path: '/user',
     meta: {
-      title: '用户中心'
+      title: '用户中心!!!'
     }
   }
 }
