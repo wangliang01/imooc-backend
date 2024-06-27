@@ -8,19 +8,32 @@ import path from "path";
 import router from "./routes";
 import compose from "koa-compose";
 import koaCompress from "koa-compress";
+import session from "koa-session";
 import { setEnv } from "./utils/env";
 setEnv()
 const app = new Koa();
 
-
+app.keys = ['abcabc'];
 
 console.log("TEST_URL", process.env.TEST_URL);
 console.log("process.env", process.env.ABC);
+
+const config = {
+  key: "koa:sess",
+  maxAge: 86400000,
+  autoCommit: true,
+  overwrite: true,
+  httpOnly: true,
+  signed: true,
+  rolling: false,
+  renew: false,
+};
 
 const middleware = compose([
   koaBody({ multipart: true }),
   cors(),
   json(),
+  session(config, app),
   helmet(),
   koaStatic(path.join(__dirname, "../public")),
   router(),

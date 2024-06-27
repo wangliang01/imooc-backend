@@ -1,5 +1,5 @@
-### get
-GET  http://localhost:3000/api/user?user=abc HTTP/1.1
+### 获取验证码
+GET  http://localhost:3000/api/captcha HTTP/1.1
 
 ### post
 POST http://localhost:3000/api/user HTTP/1.1

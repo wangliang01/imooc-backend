@@ -149,6 +149,7 @@ setEnv()
 ```
 
 **修改api中commonjs写法，改为ES6模块写法**
+
 ```js
 // module.exports = function (ctx) {
 //   ctx.body =  {
@@ -177,6 +178,7 @@ export default new UserController()
 ```
 
 **修改routes的写法**
+
 ```js
 // routes/user.js
 // const Router = require('koa-router')
@@ -211,4 +213,16 @@ import user from "./user";
 
 export default combineRouters(user);
 
+```
+
+**设置npm scripts**
+
+```json
+  "scripts": {
+    "dev": "npm run start:dev",
+    "start:dev": "cross-env NODE_ENV=development nodemon --exec babel-node src/index.js",
+    "start:prod": "cross-env NODE_ENV=production nodemon --exec babel-node src/index.js",
+    "build": "npm run clean && cross-env NODE_ENV=production webpack --config config/webpack.config.prod.js",
+    "clean": "rimraf dist"
+  },
 ```

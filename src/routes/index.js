@@ -9,5 +9,6 @@
 import combineRouters from "koa-combine-routers";
 
 import user from "./user";
+import captcha from "./captcha";
 
-export default combineRouters(user);
+export default combineRouters(user, captcha);
