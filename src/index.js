@@ -22,7 +22,7 @@ console.log("NODE_ENV", process.env.NODE_ENV);
 
 const config = {
   key: process.env.KOA_SESSION_KEY,
-  maxAge: process.env.KOA_SESSION_MAX_AGE,
+  maxAge: +process.env.KOA_SESSION_MAX_AGE,
   autoCommit: true,
   overwrite: true,
   httpOnly: true,

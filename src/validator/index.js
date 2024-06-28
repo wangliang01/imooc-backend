@@ -36,10 +36,10 @@ export class KoaValidator {
   }
   async validate() {
     try {
-      const result = await this.validateSchema.validate(this.params, { abortEarly: false });
+      const result = await this.validateSchema.validate(this.params, { abortEarly: false, stripUnknown: true });
       return result;
     } catch (error) {
-      throw new HttpException(error.message, 10001);
+      throw new HttpException(error.errors[0].message, 10001);
     }
   }
 }
