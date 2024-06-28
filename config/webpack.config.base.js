@@ -11,7 +11,12 @@ const webpackconfig = {
     filename: '[name].bundle.js',
     path: path.join(__dirname, '../dist')
   },
-
+  resolve: {
+    extensions: ['.js', '.jsx'],
+    alias: {
+      '@': path.join(__dirname, '../src')
+    }
+  },
   module: {
     rules: [
       {

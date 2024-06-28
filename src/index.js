@@ -5,22 +5,24 @@ import json from "koa-json";
 import helmet from "koa-helmet";
 import koaStatic from "koa-static";
 import path from "path";
-import router from "./routes";
+import router from "./router";
 import compose from "koa-compose";
 import koaCompress from "koa-compress";
 import session from "koa-session";
 import { setEnv } from "./utils/env";
+import catchError from "./middleware/exception";
 setEnv()
 const app = new Koa();
 
-app.keys = ['abcabc'];
+app.use(catchError);
 
-console.log("TEST_URL", process.env.TEST_URL);
-console.log("process.env", process.env.ABC);
+app.keys = [process.env.KOA_SESSION_KEYS];
+
+console.log("NODE_ENV", process.env.NODE_ENV);
 
 const config = {
-  key: "koa:sess",
-  maxAge: 86400000,
+  key: process.env.KOA_SESSION_KEY,
+  maxAge: process.env.KOA_SESSION_MAX_AGE,
   autoCommit: true,
   overwrite: true,
   httpOnly: true,
