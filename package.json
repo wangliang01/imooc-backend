@@ -28,6 +28,7 @@
     "koa-session": "^6.4.0",
     "koa-static": "^5.0.0",
     "mongoose": "^8.5.1",
+    "redis": "^4.6.15",
     "require-directory": "^2.1.1",
     "svg-captcha": "^1.4.0",
     "yup": "^1.4.0"

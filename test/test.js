@@ -1,12 +1,12 @@
-import User from "../src/model/user";
+import { getHValue, setValue } from "../src/utils/redis";
 
+// 测试
 
-const user = new User({
-  name: 'james',
-  age: '123456',
-  email: 'james@qq.com'
-})
+const init = async () => {
+  await setValue("test", { name: "test", age: 18 });
+  getHValue("test").then(res => {
+   console.log(res)
+ })
+};
 
-user.save().then(res => {
-  console.log("保存成功")
-})
+init()
