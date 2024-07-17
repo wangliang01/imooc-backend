@@ -23,10 +23,14 @@ client.on('end', () => {
   console.log('Redis client connection ended');
 });
 
-export function setValue(key, value) {
+export function setValue(key, value, expireTime) {
   if (typeof key === 'undefined' || key === null || key === '') return 
   if (typeof value === 'string') {
-    client.set(key, value);
+    if (expireTime) {
+      client.set(key, value, 'EX', expireTime)
+    } else {
+      client.set(key, value);
+    }
   } else {
     Object.keys(value).forEach(function (k) {
       client.hSet(key, k, value[k]);

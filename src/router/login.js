@@ -1,11 +1,9 @@
 import Router from 'koa-router'
-import userController from '../api/user'
-import { LoginValidator } from '../validator/index'
+import LoginController from '../api/login'
+
 const router = new Router({
   prefix: '/api'
 })
-
-// router.get('/user', userController.index)
 
 // 注册
 router.post('/register', async (ctx) => {
@@ -16,11 +14,7 @@ router.post('/register', async (ctx) => {
 
 
 // 登录
-router.post('/login', async (ctx) => {
-  const params = await new LoginValidator(ctx).validate()
-  console.log(params)
-  ctx.body = params
-})
+router.post('/login', LoginController.login)
 
 // 忘记密码
 router.post('/forget', async (ctx) => {

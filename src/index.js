@@ -1,3 +1,5 @@
+import { setEnv } from "./utils/env";
+setEnv()
 import Koa from "koa";
 import { koaBody } from "koa-body";
 import cors from "@koa/cors";
@@ -9,9 +11,8 @@ import router from "./router";
 import compose from "koa-compose";
 import koaCompress from "koa-compress";
 import session from "koa-session";
-import { setEnv } from "./utils/env";
 import catchError from "./middleware/exception";
-setEnv()
+import jwt from "koa-jwt";
 const app = new Koa();
 
 app.use(catchError);
@@ -35,6 +36,12 @@ const middleware = compose([
   koaBody({ multipart: true }),
   cors(),
   json(),
+  jwt({ secret: process.env.JWT_SECRET }).unless({
+    path: [
+      /^\/api\/login/, 
+      /^\/api\/public/
+    ]
+  }),
   session(config, app),
   helmet(),
   koaStatic(path.join(__dirname, "../public")),
