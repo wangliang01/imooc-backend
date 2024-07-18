@@ -1,4 +1,4 @@
-import { LoginValidator } from "../validator/index";
+import { LoginValidator } from "@/validator/index";
 import { getValue } from "../utils/redis";
 import { HttpException } from "../utils/httpException";
 import jwt from "jsonwebtoken";
@@ -20,10 +20,12 @@ class LoginController {
       username: params.username,
     });
 
+    // 用户不存在
     if (!user) {
       throw new HttpException("账号或者密码错误");
     }
 
+    // 密码校验
     if (!user.checkPassword(params.password)) {
       throw new HttpException("账号或者密码错误");
     }

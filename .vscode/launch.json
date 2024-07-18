@@ -16,7 +16,7 @@
         "<node_internals>/**"
       ],
       "type": "node",
-      "runtimeArgs": ["--exec", "esno"]
+      "runtimeArgs": ["--exec", "babel-node"]
     }
   ]
 }
