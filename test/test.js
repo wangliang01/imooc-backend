@@ -1,12 +1,12 @@
-import { getHValue, setValue } from "../src/utils/redis";
+// import { getHValue, setValue } from "../src/utils/redis";
 
-// 测试
+// // 测试
 
-const init = async () => {
-  await setValue("test", { name: "test", age: 18 });
-  getHValue("test").then(res => {
-   console.log(res)
- })
-};
+// const init = async () => {
+//   await setValue("test", { name: "test", age: 18 });
+//   getHValue("test").then(res => {
+//    console.log(res)
+//  })
+// };
 
-init()
+// init()

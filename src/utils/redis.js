@@ -1,5 +1,3 @@
-import { setEnv } from "../utils/env";
-setEnv()
 import { createClient } from "redis";
 console.log("redis url:", process.env.REDIS_URL)
 const client = createClient({

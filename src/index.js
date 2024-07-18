@@ -1,12 +1,11 @@
-import { setEnv } from "./utils/env";
-setEnv()
+import './utils/env'
+import path from "path";
 import Koa from "koa";
 import { koaBody } from "koa-body";
 import cors from "@koa/cors";
 import json from "koa-json";
 import helmet from "koa-helmet";
 import koaStatic from "koa-static";
-import path from "path";
 import router from "./router";
 import compose from "koa-compose";
 import koaCompress from "koa-compress";
@@ -15,11 +14,11 @@ import catchError from "./middleware/exception";
 import jwt from "koa-jwt";
 const app = new Koa();
 
+console.log("NODE_ENV", process.env);
 app.use(catchError);
 
 app.keys = [process.env.KOA_SESSION_KEYS];
 
-console.log("NODE_ENV", process.env.NODE_ENV);
 
 const config = {
   key: process.env.KOA_SESSION_KEY,
