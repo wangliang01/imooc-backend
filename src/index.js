@@ -38,6 +38,7 @@ const middleware = compose([
   jwt({ secret: process.env.JWT_SECRET }).unless({
     path: [
       /^\/api\/login/, 
+      /^\/api\/register/, 
       /^\/api\/public/
     ]
   }),

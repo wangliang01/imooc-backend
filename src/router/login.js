@@ -6,11 +6,7 @@ const router = new Router({
 })
 
 // 注册
-router.post('/register', async (ctx) => {
-  // const params = await new LoginValidator(ctx).validate()
-  // console.log(params)
-  // ctx.body = params
-})
+router.post('/register', LoginController.register)
 
 
 // 登录

@@ -4,8 +4,47 @@ import { HttpException } from "../utils/httpException";
 import jwt from "jsonwebtoken";
 import { success } from "../utils/helper";
 import User from "../model/user";
+import bcrypt from "bcryptjs";
 class LoginController {
   constructor() {}
+  async register(ctx) {
+    const params = await new LoginValidator(ctx).validate();
+    console.log("params", params);
+    // 1. 验证码校验
+    const code = await getValue(params.sid);
+    if (code !== params.code) {
+      throw new HttpException("验证码错误", 10001);
+    }
+    // 2. 检测用户名是否存在
+    const user = await User.findOne({
+      username: params.username,
+    });
+
+    if (user) {
+      throw new HttpException("用户已存在", 10002);
+    }
+
+    // 3. 检测昵称是否存在
+    const user1 = await User.findOne({
+      nickname: params.nickname,
+    });
+
+    if (user1) {
+      throw new HttpException("昵称已存在", 10003);
+    }
+
+    // 密码加密，采用 bcryptjs
+    const salt = bcrypt.genSaltSync(10);
+    const pwd = bcrypt.hashSync(params.password, salt);
+
+    await User.create({
+      username: params.username,
+      password: pwd,
+      nickname: params.nickname,
+    });
+
+    success(ctx, null, "注册成功");
+  }
   async login(ctx) {
     const params = await new LoginValidator(ctx).validate();
     console.log("params", params);

@@ -6,6 +6,7 @@ export class LoginValidator extends KoaValidator {
   constructor(ctx) {
     const rules = {
       username: yup.string().required({ message: '请输入用户名' }).email({ message: '请输入正确的邮箱' }),
+      nickname: yup.string().optional(),
       password: yup.string().required({ message: '请输入密码' }).min(6, { message: '密码不能少于6位' }),
       code: yup.string().required({ message: '请输入验证码' }).min(4, { message: '验证码只支持4位' }).max(4, { message: '验证码只支持4位' }),
       sid: yup.string().required({ message: '请输入sid' }),
