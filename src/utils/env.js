@@ -1,16 +1,23 @@
-import { configDotenv } from "dotenv";
+import dotenv from 'dotenv'
 import path from "path";
 
-export const setEnv = () => {
-  // 首先加载通用的 .env 文件
-  configDotenv({ path: path.join(__dirname, "../../.env") });
+// 加载基础配置
+dotenv.config({ path: path.join(__dirname, "../../.env") })
 
-  if (process.env.NODE_ENV === "production") {
-    // 如果是生产环境，再加载 .env.prod 文件
-    configDotenv({ path: path.join(__dirname, "../../.env.prod") });
-  } else {
-    // 否则加载 .env.dev 文件
-    configDotenv({ path: path.join(__dirname, "../../.env.dev") });
+
+// 根据环境变量决定加载哪个配置文件
+
+if (process.env.NODE_ENV === "production") {
+  try {
+    dotenv.config({ path: path.join(__dirname, "../../.env.prod") })
+  } catch (error) {
+    console.log("没有找到 .env.prod 文件")
   }
-};
+} else {
+  try {
+    dotenv.config({ path: path.join(__dirname, "../../.env.dev") })
+  } catch (error) {
+    console.log("没有找到 .env.dev 文件")
+  }
+}
 

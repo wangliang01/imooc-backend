@@ -3,6 +3,15 @@ const catchError = async (ctx, next) => {
   try {
     await next();
   } catch (error) {
+    if (401 === error.status) {
+      ctx.status = 401;
+      ctx.body = {
+        msg: "用户未授权，请在访问时在header中加入Authorization",
+        code: 401,
+        data: null
+      }
+      return 
+    }
     // 如果是生产环境，优化错误信息
     if (process.env.NODE_ENV === "production") {
       ctx.status = 500;

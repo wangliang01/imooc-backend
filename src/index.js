@@ -1,24 +1,24 @@
+import './utils/env'
+import path from "path";
 import Koa from "koa";
 import { koaBody } from "koa-body";
 import cors from "@koa/cors";
 import json from "koa-json";
 import helmet from "koa-helmet";
 import koaStatic from "koa-static";
-import path from "path";
 import router from "./router";
 import compose from "koa-compose";
 import koaCompress from "koa-compress";
 import session from "koa-session";
-import { setEnv } from "./utils/env";
 import catchError from "./middleware/exception";
-setEnv()
+import jwt from "koa-jwt";
 const app = new Koa();
 
+console.log("NODE_ENV", process.env);
 app.use(catchError);
 
 app.keys = [process.env.KOA_SESSION_KEYS];
 
-console.log("NODE_ENV", process.env.NODE_ENV);
 
 const config = {
   key: process.env.KOA_SESSION_KEY,
@@ -35,6 +35,13 @@ const middleware = compose([
   koaBody({ multipart: true }),
   cors(),
   json(),
+  jwt({ secret: process.env.JWT_SECRET }).unless({
+    path: [
+      /^\/api\/login/, 
+      /^\/api\/register/, 
+      /^\/api\/public/
+    ]
+  }),
   session(config, app),
   helmet(),
   koaStatic(path.join(__dirname, "../public")),
