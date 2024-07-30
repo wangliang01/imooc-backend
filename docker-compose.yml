@@ -1,15 +1,17 @@
 version: '3'
+
 services:
-  jenkins:
-    container_name: jenkins_test
-    image: jenkins/jenkins:lts
-    restart: always
-    user: jenkins:994
-    ports: 
-      - "10050:8080"
-      - "50000:50000"
-      - "10051:10051"
+  gitlab_test:
+    image: gitlab/gitlab-ce:latest
+    container_name: gitlab_test
+    hostname: 127.0.0.1 # 这里用实际域名或IP，这里保持与external_url一致
+    environment:
+      - GITLAB_OMNIBUS_CONFIG="external_url 'http://127.0.0.1:13800';"
+    ports:
+      - "13800:80"
+      - "13822:22"
     volumes:
-      - d:/dockerData/jenkis/config:/var/jenkins_home
-      - d:/dockerData/docker:/usr/bin/docker
-      - d:/dockerData/docker.sock:/var/run/docker.sock
+      - d:/dockerData/gitlab/config:/etc/gitlab
+      - d:/dockerData/gitlab/logs:/var/log/gitlab
+      - d:/dockerData/gitlab/data:/var/opt/gitlab
+    restart: always
