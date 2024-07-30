@@ -1,0 +1,15 @@
+version: '3'
+services:
+  jenkins:
+    container_name: jenkins_test
+    image: jenkins/jenkins:lts
+    restart: always
+    user: jenkins:994
+    ports: 
+      - "10050:8080"
+      - "50000:50000"
+      - "10051:10051"
+    volumes:
+      - d:/dockerData/jenkis/config:/var/jenkins_home
+      - d:/dockerData/docker:/usr/bin/docker
+      - d:/dockerData/docker.sock:/var/run/docker.sock
