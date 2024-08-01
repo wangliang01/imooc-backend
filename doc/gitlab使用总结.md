@@ -101,7 +101,7 @@ services:
 除此之外，在github上有一个国外的小伙，上传了一份[docker-gitlab](https://github.com/sameersbn/docker-gitlab),我们用这个来试下
 
 ```yaml
-version: '2.3'
+version: '3'
 
 services:
   redis:
@@ -114,7 +114,7 @@ services:
 
   postgresql:
     restart: always
-    image: sameersbn/postgresql:14-20230628
+    image: sameersbn/postgresql:10-2
     volumes:
     # DONE: 需要修改的配置
     - d:/dockerData/gitlab/postgresql-data:/var/lib/postgresql:Z
@@ -126,15 +126,15 @@ services:
 
   gitlab:
     restart: always
-    image: sameersbn/gitlab:17.2.1
+    image: sameersbn/gitlab:12.2.1-1
     depends_on:
     - redis
     - postgresql
     ports:
     # DONE: 需要修改的配置
-    - "10080:80"
+    - "13800:80"
     # DONE: 需要修改的配置
-    - "10022:22"
+    - "13822:22"
     volumes:
     # DONE: 需要修改的配置
     - d:/dockerData/gitlab/gitlab-data:/home/git/data:Z
@@ -167,9 +167,9 @@ services:
     # DONE: 需要修改的配置
     - GITLAB_HOST=localhost
     # DONE: 需要修改的配置
-    - GITLAB_PORT=10080
+    - GITLAB_PORT=13800
     # DONE: 需要修改的配置
-    - GITLAB_SSH_PORT=10022
+    - GITLAB_SSH_PORT=13822
     - GITLAB_RELATIVE_URL_ROOT=
     # DONE: 需要修改的配置
     - GITLAB_SECRETS_DB_KEY_BASE=long-and-random-alphanumeric-string
@@ -178,10 +178,10 @@ services:
     # DONE: 需要修改的配置
     - GITLAB_SECRETS_OTP_KEY_BASE=long-and-random-alphanumeric-string
 
-    # TODO: 需要修改的配置
-    - GITLAB_ROOT_PASSWORD=1392830517@qq.com
-    # TODO: 需要修改的配置
-    - GITLAB_ROOT_EMAIL=Wl123456
+    # DONE: 需要修改的配置
+    - GITLAB_ROOT_PASSWORD=1234567890
+    # DONE: 需要修改的配置
+    - GITLAB_ROOT_EMAIL=1392830517@qq.com
 
     - GITLAB_NOTIFY_ON_BROKEN_BUILDS=true
     - GITLAB_NOTIFY_PUSHER=false
@@ -273,9 +273,4 @@ services:
     - OAUTH_AZURE_API_KEY=
     - OAUTH_AZURE_API_SECRET=
     - OAUTH_AZURE_TENANT_ID=
-
-volumes:
-  redis-data:
-  postgresql-data:
-  gitlab-data:
 ```
