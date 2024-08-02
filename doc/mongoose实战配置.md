@@ -1,5 +1,10 @@
 # mongoose实战配置
 
+进入容器
+```
+docker exec -it mongo mongosh
+```
+
 ## 1、安装mongoose
 
 ```bash

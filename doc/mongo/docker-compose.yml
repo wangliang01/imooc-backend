@@ -5,7 +5,7 @@ services:
     container_name: mongo
     restart: always
     environment:
-      MONGO_INITDB_ROOT_USERNAME: test
+      MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: 123456
     volumes:
       - /app/mongo/data:/data/db

@@ -10,8 +10,11 @@ token = "1234567890"
 
 # GitLab 代理配置
 [[proxies]]
+name = "web"
 type = "tcp"
-name = "gitlab-proxy"
 remote_port = 13800 # 这里是你希望外网访问的端口
 local_ip = "127.0.0.1"
-local_port = 13800 # 这里是本地 GitLab 的端口
+local_port = 5501 # 这里是本地 GitLab 的端口
+
+
+

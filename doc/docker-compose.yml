@@ -1,0 +1,49 @@
+version: "3"
+services:
+  redis:
+    image: redis:latest
+    container_name: redis
+    restart: always
+    command: ['redis-server', '--requirepass', '123456']
+    volumes:
+      - /app/redis:/data
+    ports:
+      - 6379:6379
+  mongo:
+    image: mongo
+    container_name: mongo:latest
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: test
+      MONGO_INITDB_ROOT_PASSWORD: 123456
+    volumes:
+      - /app/mongo/data:/data/db
+    ports:
+      - 27017:27017
+  jenkins:
+    container_name: jenkins
+    image: jenkins/jenkins:lts
+    restart: always
+    user: jenkins:994
+    ports: 
+      - "10050:8080"
+      - "50000:50000"
+      - "10051:10051"
+    volumes:
+       # jenkins的数据和配置文件目录映射
+      - /app/jenkins/data:/var/jenkins_home
+      # 将外部的jdk目录映射到容器内部
+      - /app/jdk:/app/jdk
+      # 将外部的maven目录映射到容器内部
+      - /app/maven:/app/maven
+  showdoc:
+    image: star7th/showdoc
+    container_name: showdoc
+    restart: always
+    user: root
+    privileged: true
+    ports:
+      - "4999:80"
+    volumes:
+      - /app/showdoc/html:/var/www/html/
+
