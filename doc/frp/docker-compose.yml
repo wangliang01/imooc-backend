@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  frps:
+    image: snowdreamtech/frps
+    container_name: frps
+    restart: always
+    ports:
+      - "7500:7500"
+      - "7501:7501"
+    volumes:
+      - /app/frps:/etc/frp
+      - /app/frps/log:/var/log/frp
+    command: -c /etc/frp/frps.toml

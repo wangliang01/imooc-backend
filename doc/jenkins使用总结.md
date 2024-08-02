@@ -22,9 +22,9 @@ services:
       - /usr/bin/docker:/usr/bin/docker
       - /var/run/docker.sock:/var/run/docker.sock
       # window上的配置
-      - d:/dockerData/jenkis/config:/var/jenkins_home
-      - d:/dockerData/docker:/usr/bin/docker
-      - d:/dockerData/docker.sock:/var/run/docker.sock
+      # - d:/dockerData/jenkis/config:/var/jenkins_home
+      # - d:/dockerData/docker:/usr/bin/docker
+      # - d:/dockerData/docker.sock:/var/run/docker.sock
 ```
 
 ## 将上面的转成命令行

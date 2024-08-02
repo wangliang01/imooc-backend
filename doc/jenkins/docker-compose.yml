@@ -1,0 +1,19 @@
+version: '3'
+services:
+  jenkins:
+    container_name: jenkins
+    image: jenkins/jenkins:lts
+    restart: always
+    user: jenkins:994
+    ports: 
+      - "10050:8080"
+      - "50000:50000"
+      - "10051:10051"
+    volumes:
+       # jenkins的数据和配置文件目录映射
+      - /app/jenkins/data:/var/jenkins_home
+      # 将外部的jdk目录映射到容器内部
+      - /app/jdk:/app/jdk
+      # 将外部的maven目录映射到容器内部
+      - /app/maven:/app/maven
+  

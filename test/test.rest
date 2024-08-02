@@ -1,5 +1,5 @@
 ### 获取验证码
-GET  http://localhost:3000/api/captcha HTTP/1.1
+GET  http://localhost:3000/api/public/captcha HTTP/1.1
 
 ### get
 GET http://localhost:3000/api/user HTTP/1.1

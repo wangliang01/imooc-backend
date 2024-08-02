@@ -1,0 +1,21 @@
+# frps.toml 配置文件
+
+# 绑定监听的公网 IP 地址和端口
+[common]
+bind_addr = "0.0.0.0"
+bind_port = 7500
+
+# 用于客户端认证的 token
+token = "1234567890"
+
+# 是否开启 TLS 加密
+tls = false
+
+# 设置 dashboard 相关的端口和认证密码
+dashboard_port = 7501
+dashboard_user = "admin"
+dashboard_pwd = "123456"
+
+# 日志配置
+log_file = "/var/log/frp/frps.log"
+log_level = "info"
