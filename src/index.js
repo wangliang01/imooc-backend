@@ -1,24 +1,22 @@
 import './utils/env'
-import path from "path";
-import Koa from "koa";
-import { koaBody } from "koa-body";
-import cors from "@koa/cors";
-import json from "koa-json";
-import helmet from "koa-helmet";
-import koaStatic from "koa-static";
-import router from "./router";
-import compose from "koa-compose";
-import koaCompress from "koa-compress";
-import session from "koa-session";
-import catchError from "./middleware/exception";
-import jwt from "koa-jwt";
-const app = new Koa();
+import path from 'path'
+import Koa from 'koa'
+import { koaBody } from 'koa-body'
+import cors from '@koa/cors'
+import json from 'koa-json'
+import helmet from 'koa-helmet'
+import koaStatic from 'koa-static'
+import router from './router'
+import compose from 'koa-compose'
+import koaCompress from 'koa-compress'
+import session from 'koa-session'
+import catchError from './middleware/exception'
+import jwt from 'koa-jwt'
+const app = new Koa()
 
-console.log("NODE_ENV", process.env);
-app.use(catchError);
+app.use(catchError)
 
-app.keys = [process.env.KOA_SESSION_KEYS];
-
+app.keys = [process.env.KOA_SESSION_KEYS]
 
 const config = {
   key: process.env.KOA_SESSION_KEY,
@@ -28,25 +26,21 @@ const config = {
   httpOnly: true,
   signed: true,
   rolling: false,
-  renew: false,
-};
+  renew: false
+}
 
 const middleware = compose([
   koaBody({ multipart: true }),
   cors(),
   json(),
   jwt({ secret: process.env.JWT_SECRET }).unless({
-    path: [
-      /^\/api\/login/, 
-      /^\/api\/register/, 
-      /^\/api\/public/
-    ]
+    path: [/^\/api\/login/, /^\/api\/register/, /^\/api\/public/]
   }),
   session(config, app),
   helmet(),
-  koaStatic(path.join(__dirname, "../public")),
-  router(),
-]);
+  koaStatic(path.join(__dirname, '../public')),
+  router()
+])
 // app.use(koaStatic(path.join(__dirname, "../public")));
 // app.use(helmet());
 // app.use(koaBody({}));
@@ -54,16 +48,14 @@ const middleware = compose([
 // app.use(json({ pretty: false, param: "pretty" }));
 // app.use(router());
 
-app.use(middleware);
+app.use(middleware)
 
-if (process.env.NODE_ENV === "production") {
-  app.use(koaCompress());
+if (process.env.NODE_ENV === 'production') {
+  app.use(koaCompress())
 }
 
-let port = process.env.PORT || 3000;
-
-console.log("port", port)
+let port = process.env.PORT || 3000
 
 app.listen(port, () => {
-  console.log("server is running at http://localhost:3000");
-});
+  console.log('server is running at http://localhost:3000')
+})

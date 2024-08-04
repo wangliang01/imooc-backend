@@ -20,5 +20,10 @@ EXPOSE 12005
 
 # 
 VOLUME ["/app/public"]
+# 这样写会有一个warning - JSONArgsRecommended: JSON arguments recommended for CMD to prevent unintended behavior related to OS signals
+# CMD ["node" "dist/server.bundle.js"]
+CMD ["/app/scripts/start.sh"]
 
-CMD ["node" "dist/server.bundle.js"]
+
+# docker run -d --name imoocbackend -p 12005:12005 imoocbackend:latest 
+# docker run  --name imoocbackend -p 12005:12005 imoocbackend:latest 

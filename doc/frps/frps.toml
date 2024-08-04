@@ -1,34 +1,16 @@
-# # frps.toml 配置文件
+# frps.toml 配置文件
 
-# # 绑定监听的公网 IP 地址和端口
-# [common]
-# bind_addr = "0.0.0.0"
-# bind_port = 7500
+# 绑定监听的公网 IP 地址和端口
+bindPort = 7500      # [必选] 绑定端口, 客户端与该端口建立连接
+log.to = "console"   # [可选] 日志配置, 通过打印的方式输出日志
+vhostHTTPPort = 7100 # [可选] http 代理需要, 当访问该端口时就转到对应本地 frpc 代理
 
-# # 用于客户端认证的 token
-# token = "1234567890"
+# 身份验证
+auth.method = "token"     # [可选] 身份验证方式
+auth.token = "1234567890" # [可选] token 设置, 只有客服端设置了相同 token 才能身份校验通过, 其实就是密码
 
-# # 是否开启 TLS 加密
-# tls = false
-
-# # 设置 dashboard 相关的端口和认证密码
-# dashboard_port = 7501
-# dashboard_user = "admin"
-# dashboard_pwd = "123456"
-
-# vhost_http_port = 13000
-
-# # 日志配置
-# log_file = "/var/log/frp/frps.log"
-# log_level = "info"
-
-bindAttr = "0.0.0.0"
-bindPort = 7500
-
-auth.method = "token"
-auth.token = "1234567890"
-
-webServer.addr = "0.0.0.0"
-webServer.port = 7501
-webServer.user = "admin"
-webServer.password = "123456"
+# 下面是服务端仪表板配置
+webServer.port = 7501         # 端口设置
+webServer.addr = "0.0.0.0"    # IP 设置
+webServer.user = "admin"      # 仪表盘用户名设置
+webServer.password = "123456" # 仪表盘用户密码设置
