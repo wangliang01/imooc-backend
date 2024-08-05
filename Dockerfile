@@ -13,7 +13,7 @@ COPY . .
 
 # 安装依赖并执行构建命令
 RUN npm install
-RUN npm run build
+RUN npm run build 
 
 # 暴露端口
 EXPOSE 12005

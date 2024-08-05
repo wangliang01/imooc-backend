@@ -39,9 +39,9 @@ services:
       # jenkins的数据和配置文件目录映射
       - /app/jenkins/data:/var/jenkins_home
       # 将外部的jdk目录映射到容器内部
-      - /app/jdk:/app/jdk
-      # 将外部的maven目录映射到容器内部
-      - /app/maven:/app/maven
+      - /usr/bin/docker:/usr/bin/docker
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /etc/docker/daemon.json:/etc/docker/daemon.json
   showdoc:
     image: star7th/showdoc
     container_name: showdoc
