@@ -5,6 +5,6 @@ services:
     image: snowdreamtech/frpc
     container_name: frpc
     volumes:
-      - e:/dockerData/frp/frpc.toml:/etc/frp/frpc.toml
+      - d:/dockerData/frp/frpc/frpc.toml:/etc/frp/frpc.toml
     network_mode: host
     command: -c /etc/frp/frpc.toml
