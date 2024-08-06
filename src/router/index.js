@@ -10,7 +10,7 @@ import publicRouter from './public'
 // const requireDirectory =  require('require-directory')
 
 const currentModule = module
-const routers = []
+const routers = [loginRouter, publicRouter]
 
 const routePath = path.join(process.cwd(), 'src/router')
 // const routerContext = requireContext(routePath, true, /\.js$/)
@@ -22,13 +22,13 @@ const routePath = path.join(process.cwd(), 'src/router')
 //   }
 // })
 
-requireDirectory(currentModule, routePath, {
-  visit: (obj) => {
-    const router = obj.default
-    if (router instanceof Router) {
-      routers.push(router)
-    }
-  }
-})
+// requireDirectory(currentModule, routePath, {
+//   visit: (obj) => {
+//     const router = obj.default
+//     if (router instanceof Router) {
+//       routers.push(router)
+//     }
+//   }
+// })
 
 export default combineRouters(...routers)
