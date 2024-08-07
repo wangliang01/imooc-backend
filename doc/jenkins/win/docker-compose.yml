@@ -1,0 +1,19 @@
+version: '3'
+services:
+  jenkins:
+    container_name: jenkins
+    image: jenkins/jenkins:latest
+    restart: always
+    user: jenkins:994
+    ports: 
+      - "10050:8080"
+      - "50000:50000"
+      - "10051:10051"
+    volumes:
+      # jenkins的数据和配置文件目录映射
+      - e:/dockerData/jenkins/data:/var/jenkins_home
+      # - //wsl.localhost/docker-desktop/etc/docker:/etc/docker  # 映射 Docker Desktop 的配置文件目录
+      # - //wsl.localhost/docker-desktop/usr/bin/docker:/usr/bin/docker
+      # - //wsl.localhost/docker-desktop/var/run/docker.sock:/var/run/docker.sock
+  
+  

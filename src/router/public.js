@@ -4,6 +4,6 @@ const router = new Router({
 })
 import globalContronller from '../api/public'
 
-router.get('/captcha', globalContronller.getCaptchaV2)
+router.get('/captcha', globalContronller.getCaptcha)
 
 export default router
