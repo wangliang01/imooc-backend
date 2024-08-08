@@ -32,7 +32,7 @@ class GlobalController {
       height: 38, // 高度
       noise: 2, // 验证码干扰线数量
       color: true, // 验证码的字符是否有颜色，默认没有，如果设置 true 则每个字符有随机的颜色
-      ignoreChars: '0o1i', // 验证码中排除某些字符，如 0o1i
+      ignoreChars: '0o1iOI', // 验证码中排除某些字符，如 0o1i
       // characters: '0123456789', // 验证码字符集
       background: '#f0f0f0' // 验证码图片背景颜色
     })

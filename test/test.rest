@@ -1,8 +1,18 @@
 ### 获取验证码
 GET  http://localhost:3000/api/public/captcha HTTP/1.1
 
-### get
-GET http://localhost:3000/api/user HTTP/1.1
+### 注册
+POST http://localhost:3000/api/register HTTP/1.1
+Content-Type: application/json
+
+{
+"username":"1392830517@qq.com",
+"nickname":"wangliang",
+"password":"Wl123456",
+"confirmPassword":"Wl123456",
+"code":"xu5x",
+"sid":"cfcf724f-3519-429b-895b-0880af13e918"
+}
 
 
 
