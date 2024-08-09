@@ -23,19 +23,14 @@ const send = async (sendInfo, url) => {
     data.url = url
   }
 
-  const html = artTemplate(
-    path.join(__dirname, './template/sendCode.html'),
-    data
-  )
+  const html = artTemplate(path.join(__dirname, './template/sendCode.html'), data)
 
   const mailOptions = {
     from: '"Imooc社区中心 👻"<1392830517@qq.com>', // sender address
     to: '1392830517@qq.com', // list of receivers
     subject:
       sendInfo.user !== '' && sendInfo.type !== 'email'
-        ? `你好开发者，${sendInfo.user}！《慕课网前端全栈实践》${
-            sendInfo.type === 'reset' ? '重置密码链接！' : '注册码！'
-          }`
+        ? `你好开发者，${sendInfo.user}！《慕课网前端全栈实践》${sendInfo.type === 'reset' ? '重置密码链接！' : '注册码！'}`
         : '《慕课网前端全栈实践》确认修改邮件链接', // Subject line // Subject line
     text: `您在《慕课网前端全栈实践》课程中注册，您的邀请码是${sendInfo.code},邀请码的过期时间: ${sendInfo.expire}`, // plain text body
     html

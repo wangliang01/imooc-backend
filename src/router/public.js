@@ -4,8 +4,6 @@ const router = new Router({
 })
 import globalController from '../api/public'
 
-// Controller
-
 router.get('/captcha', globalController.getCaptcha)
 
 export default router

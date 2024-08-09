@@ -6,7 +6,6 @@ import { success } from '../utils/helper'
 import User from '../model/user'
 import bcrypt from 'bcryptjs'
 class LoginController {
-  constructor() {}
   async register(ctx) {
     const params = await new LoginValidator(ctx).validate()
     // 1. 验证码校验

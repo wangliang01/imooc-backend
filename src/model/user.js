@@ -1,6 +1,5 @@
-import mongoose from "../utils/db";
-import bcrypt from "bcryptjs";
-
+import mongoose from '../utils/db'
+import bcrypt from 'bcryptjs'
 
 // 定义模型
 const UserSchema = new mongoose.Schema({
@@ -16,15 +15,15 @@ const UserSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true
-  },
+  }
 })
 
 const User = mongoose.model('users', UserSchema)
 
 /**
  * 检查密码
- * @param {String} password 
- * @returns 
+ * @param {String} password
+ * @returns
  */
 User.prototype.checkPassword = function (password) {
   return bcrypt.compareSync(password, this.password)

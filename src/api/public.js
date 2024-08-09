@@ -1,7 +1,6 @@
 import svgCaptcha from 'svg-captcha'
 import { setValue, getValue } from '../utils/redis'
 class GlobalController {
-  constructor() {}
   async getCaptcha(ctx) {
     const { text, data } = svgCaptcha.create({
       size: 4, // 验证码长度
