@@ -15,10 +15,62 @@ const UserSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true
+  },
+  email: {
+    type: String,
+    required: false
+  },
+  created: {
+    type: String,
+    required: true
+  },
+  updated: {
+    type: String,
+    required: false
+  },
+  favs: {
+    type: Number,
+    required: false
+  },
+  gender: {
+    type: String,
+    required: false
+  },
+  roles: {
+    type: String,
+    required: false
+  },
+  avatar: {
+    type: String,
+    required: false
+  },
+  phone: {
+    type: String,
+    required: false
+  },
+  status: {
+    type: String,
+    required: false
+  },
+  regmark: {
+    type: String,
+    required: false
+  },
+  location: {
+    type: String,
+    required: false
+  },
+  vip: {
+    type: String,
+    required: false
+  },
+  count: {
+    type: Number,
+    required: false
   }
 })
 
-const User = mongoose.model('users', UserSchema)
+const User = mongoose.model('user', UserSchema)
 
 /**
  * 检查密码

@@ -14,3 +14,18 @@ export class LoginValidator extends KoaValidator {
     super(ctx, rules)
   }
 }
+
+// 获取文章列表校验器
+export class ContentValidator extends KoaValidator {
+  constructor(ctx) {
+    const rules = {
+      type: yup.string().required({ message: '请传入type' }),
+      page: yup.number().optional(),
+      size: yup.number().optional(),
+      category: yup.string().optional(),
+      sort: yup.string().optional(),
+      status: yup.string().optional()
+    }
+    super(ctx, rules)
+  }
+}
