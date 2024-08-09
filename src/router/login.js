@@ -8,7 +8,6 @@ const router = new Router({
 // 注册
 router.post('/register', LoginController.register)
 
-
 // 登录
 router.post('/login', LoginController.login)
 
@@ -18,7 +17,5 @@ router.post('/forget', async (ctx) => {
   // console.log(params)
   // ctx.body = params
 })
-
-
 
 export default router

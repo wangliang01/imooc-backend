@@ -17,33 +17,15 @@ const defaultOptions = {
 function checkFileInclusion(path, filename, options) {
   return (
     // verify file has valid extension
-    new RegExp('\\.(' + options.extensions.join('|') + ')$', 'i').test(
-      filename
-    ) &&
+    new RegExp('\\.(' + options.extensions.join('|') + ')$', 'i').test(filename) &&
     // if options.include is a RegExp, evaluate it and make sure the path passes
-    !(
-      options.include &&
-      options.include instanceof RegExp &&
-      !options.include.test(path)
-    ) &&
+    !(options.include && options.include instanceof RegExp && !options.include.test(path)) &&
     // if options.include is a function, evaluate it and make sure the path passes
-    !(
-      options.include &&
-      typeof options.include === 'function' &&
-      !options.include(path, filename)
-    ) &&
+    !(options.include && typeof options.include === 'function' && !options.include(path, filename)) &&
     // if options.exclude is a RegExp, evaluate it and make sure the path doesn't pass
-    !(
-      options.exclude &&
-      options.exclude instanceof RegExp &&
-      options.exclude.test(path)
-    ) &&
+    !(options.exclude && options.exclude instanceof RegExp && options.exclude.test(path)) &&
     // if options.exclude is a function, evaluate it and make sure the path doesn't pass
-    !(
-      options.exclude &&
-      typeof options.exclude === 'function' &&
-      options.exclude(path, filename)
-    )
+    !(options.exclude && typeof options.exclude === 'function' && options.exclude(path, filename))
   )
 }
 
@@ -70,10 +52,10 @@ function requireDirectory(m, path, options) {
 
   // get the path of each file in specified directory, append to current tree node, recurse
   fs.readdirSync(path).forEach(function (filename) {
-    var joined = join(path, filename),
-      files,
-      key,
-      obj
+    var joined = join(path, filename)
+    var files
+    var key
+    var obj
 
     if (fs.statSync(joined).isDirectory() && options.recurse) {
       // this node is a directory; recurse
@@ -83,15 +65,11 @@ function requireDirectory(m, path, options) {
         retval[options.rename(filename, joined, filename)] = files
       }
     } else {
-      if (
-        joined !== m.filename &&
-        checkFileInclusion(joined, filename, options)
-      ) {
+      if (joined !== m.filename && checkFileInclusion(joined, filename, options)) {
         // hash node key shouldn't include file extension
         key = filename.substring(0, filename.lastIndexOf('.'))
         obj = m.require(joined)
-        retval[options.rename(key, joined, filename)] =
-          options.visit(obj, joined, filename) || obj
+        retval[options.rename(key, joined, filename)] = options.visit(obj, joined, filename) || obj
       }
     }
   })

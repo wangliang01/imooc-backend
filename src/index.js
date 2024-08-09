@@ -54,8 +54,8 @@ if (process.env.NODE_ENV === 'production') {
   app.use(koaCompress())
 }
 
-let port = process.env.PORT || 3000
-console.log("🚀 ~ port:", port)
+const port = process.env.PORT || 3000
+console.log('🚀 ~ port:', port)
 
 app.listen(port, () => {
   console.log(`server is running at http://localhost:${port}`)
