@@ -66,7 +66,7 @@ PostSchema.pre('save', function (next) {
   next()
 })
 
-// 添加方法
+// 获取文章列表
 PostSchema.static('getList', async function (option, page, size, sort) {
   console.log('getList', option, page, size, sort)
   const result = await this.find(option)
@@ -78,8 +78,18 @@ PostSchema.static('getList', async function (option, page, size, sort) {
       path: 'user',
       select: ['nickname', 'avatar', 'vip']
     })
-  console.log('🚀 ~ result:', result)
 
+  return result
+})
+
+// 获取本周热议
+PostSchema.static('getTopWeek', async function () {
+  // 最近七天
+  const result = await this.find({
+    answerNum: { $gte: 20 }
+  })
+    .sort({ created: -1 })
+    .limit(15)
   return result
 })
 

@@ -3,6 +3,7 @@ services:
   frpc:
     image: snowdreamtech/frpc
     container_name: frpc
+    restart: always
     volumes:
       - e:/dockerData/frp/frpc.toml:/etc/frp/frpc.toml
     network_mode: host
