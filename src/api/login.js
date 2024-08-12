@@ -74,7 +74,8 @@ class LoginController {
       { expiresIn: '1d' }
     )
 
-    const userInfo = user._doc
+    // const userInfo = user._doc
+    const userInfo = user.toJSON()
 
     deleteFields(userInfo, ['password', '__v'])
 
