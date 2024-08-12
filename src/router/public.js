@@ -2,8 +2,8 @@ import Router from 'koa-router'
 const router = new Router({
   prefix: '/api/public'
 })
-import globalContronller from '../api/public'
+import globalController from '../api/public'
 
-router.get('/captcha', globalContronller.getCaptcha)
+router.get('/captcha', globalController.getCaptcha)
 
 export default router

@@ -1,5 +1,7 @@
 import mongoose from '../utils/db'
 import bcrypt from 'bcryptjs'
+import dayjs from 'dayjs'
+import { HttpException } from '../utils/httpException'
 
 // 定义模型
 const UserSchema = new mongoose.Schema({
@@ -7,6 +9,9 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
     unique: true
+  },
+  email: {
+    type: String
   },
   nickname: {
     type: String,
@@ -16,61 +21,84 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  email: {
-    type: String,
-    required: false
-  },
   created: {
-    type: String,
-    required: true
+    type: String
   },
   updated: {
-    type: String,
-    required: false
+    type: String
   },
   favs: {
     type: Number,
-    required: false
+    default: 100
   },
   gender: {
     type: String,
-    required: false
+    default: '0'
   },
   roles: {
-    type: String,
-    required: false
+    type: Array,
+    default: ['user']
   },
   avatar: {
     type: String,
-    required: false
+    default: 'https://picsum.photos/100/100'
   },
   phone: {
     type: String,
-    required: false
+    match: /^1[3456789]\d{9}$/,
+    default: ''
   },
   status: {
     type: String,
-    required: false
+    default: '0'
   },
   regmark: {
     type: String,
-    required: false
+    default: ''
   },
   location: {
     type: String,
-    required: false
+    default: ''
   },
   vip: {
     type: String,
-    required: false
+    default: '0'
   },
   count: {
     type: Number,
-    required: false
+    default: 0
   }
 })
 
-const User = mongoose.model('user', UserSchema)
+UserSchema.pre('save', function (next) {
+  this.created = dayjs().format('YYYY-MM-DD HH:mm:ss')
+  next()
+  this.email = this.username
+})
+
+UserSchema.pre('update', function (next) {
+  this.updated = dayjs().format('YYYY-MM-DD HH:mm:ss')
+  next()
+})
+
+UserSchema.post('save', function (error, doc, next) {
+  if (error.name === 'MongoError' && error.code === 11000) {
+    throw HttpException('该用户已存在', 10000, 400)
+  }
+  next()
+})
+
+UserSchema.static('findById', async function (id) {
+  return await this.findOne(
+    { _id: id },
+    {
+      password: 0,
+      username: 0
+    }
+  )
+})
+
+const User = mongoose.model('User', UserSchema)
 
 /**
  * 检查密码

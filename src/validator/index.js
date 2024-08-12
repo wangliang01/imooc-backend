@@ -15,16 +15,17 @@ export class LoginValidator extends KoaValidator {
   }
 }
 
-// 获取文章列表校验器
+// 文章列表校验器
 export class ContentValidator extends KoaValidator {
   constructor(ctx) {
     const rules = {
-      type: yup.string().required({ message: '请传入type' }),
+      type: yup.string().required({ message: '请输入类型' }),
       page: yup.number().optional(),
       size: yup.number().optional(),
       category: yup.string().optional(),
       sort: yup.string().optional(),
-      status: yup.string().optional()
+      status: yup.string().optional(),
+      tag: yup.string().optional()
     }
     super(ctx, rules)
   }

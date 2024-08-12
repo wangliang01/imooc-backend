@@ -65,7 +65,7 @@ services:
       - SSL_SELF_SIGNED=false
 
       # DONE: 需要修改的配置
-      - GITLAB_HOST=192.168.100.136
+      - GITLAB_HOST=192.168.10.10
       # DONE: 需要修改的配置
       - GITLAB_PORT=13800
       # DONE: 需要修改的配置

@@ -1,43 +1,39 @@
-// import { success } from '../utils/helper'
-// import { ContentValidator } from '../validator'
+import Link from '../model/links'
 import Post from '../model/post'
-
+import { success } from '../utils/helper'
+import { ContentValidator } from '../validator'
 class ContentController {
+  // 文章列表
   async getPostList(ctx) {
-    // 测试
-    // 先插入几条数据
-    const insertData = {
-      title: '高争号这千问',
-      content:
-        '京打话你边已非流面第持地万龙划走第。等党门心基心加价见容律作面除相争。国着员马容马心管马采较历今并速毛历少。下年革题种育条极空小整知区断。根整极确观她要支高斗斗后增况阶基转。却受白第是到支的切清程适土始切写重。',
-      created: '2004-11-25 00:44:41',
-      category: 'discuss',
-      fav: 681,
-      isEnd: '1',
-      readNum: 70,
-      answerNum: 56,
-      status: '0',
-      isTop: '0',
-      sort: 'answer',
-      tags: [
-        {
-          name: '精华',
-          class: 'layui-bg-red'
-        }
-      ]
+    const v = await new ContentValidator(ctx).validate()
+
+    const { type: isTop, tag, page = 1, size = 10, sort = 'created', ...option } = v
+    option.isTop = isTop
+    if (tag) {
+      option.tags = { $elemMatch: { name: tag } }
     }
+    // 删除option中的空值
+    Object.keys(option).forEach((key) => {
+      if (option[key] === undefined || option[key] === '') delete option[key]
+    })
+    const result = await Post.getList(option, page, size, sort)
+    success(ctx, result)
+  }
+  // 友情链接
+  async getLinks(ctx) {
+    const result = await Link.find({ type: '1' })
+    success(ctx, result)
+  }
+  // 温馨提示
+  async getTips(ctx) {
+    const result = await Link.find({ type: '2' })
+    success(ctx, result)
+  }
 
-    Post.create(insertData)
-
-    // 1.校验客户端传来的数据是否合法
-    // const v = await new ContentValidator(ctx).validate()
-
-    // // 2.获取客户端传来的参数
-    // const { page, size, sort, ...option } = v
-    // // 3.获取帖子列表
-    // const data = await Post.getList(option, page, size, sort)
-    // // 4.返回数据
-    // ctx.body = success(data)
+  // 本周热议
+  async getTopWeek(ctx) {
+    const result = await Post.getTopWeek()
+    success(ctx, result)
   }
 }
 

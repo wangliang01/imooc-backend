@@ -2,7 +2,7 @@ import { LoginValidator } from '@/validator/index'
 import { getValue } from '../utils/redis'
 import { HttpException } from '../utils/httpException'
 import jwt from 'jsonwebtoken'
-import { success } from '../utils/helper'
+import { deleteFields, success } from '../utils/helper'
 import User from '../model/user'
 import bcrypt from 'bcryptjs'
 class LoginController {
@@ -74,8 +74,13 @@ class LoginController {
       { expiresIn: '1d' }
     )
 
+    const userInfo = user._doc
+
+    deleteFields(userInfo, ['password', '__v'])
+
     success(ctx, {
-      token
+      token,
+      ...userInfo
     })
   }
   async index(ctx) {

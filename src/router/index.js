@@ -5,13 +5,13 @@ import combineRouters from 'koa-combine-routers'
 // import requireDirectory from 'require-directory'
 import loginRouter from './login'
 import publicRouter from './public'
-import contentRouter from './content'
+import ContentRouter from './content'
 
 // const requireContext = require('require-context');
 // const requireDirectory =  require('require-directory')
 
 // const currentModule = module
-const routers = [loginRouter, publicRouter, contentRouter]
+const routers = [loginRouter, publicRouter, ContentRouter]
 
 // const routePath = path.join(process.cwd(), 'src/router')
 // const routerContext = requireContext(routePath, true, /\.js$/)

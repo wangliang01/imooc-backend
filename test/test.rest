@@ -14,6 +14,26 @@ Content-Type: application/json
 "sid":"cfcf724f-3519-429b-895b-0880af13e918"
 }
 
+# {
+#     "email": "1392830517@qq.com",
+#     "username": "wangliang",
+#     "password": "Wl123456",
+#     "nickname": "汤杰",
+#     "created": "2024-08-10 08:04:06",
+#     "updated": "2024-08-10 08:04:06",
+#     "favs": 41,
+#     "gender": "1",
+#     "roles": "super_admin",
+#     "avatar": "http://dummyimage.com/100x100",
+#     "phone": "13041700015",
+#     "status": "0",
+#     "regmark": "若暗夜终临，吾将立于万万人之前，横刀向渊",
+#     "location": "香港特别行政区 香港岛",
+#     "vip": "2",
+#     "count": 42
+# }
+
+
 
 
 ### post
@@ -41,9 +61,5 @@ Content-Type: application/json
 
 ### 请求静态资源
 GET http://localhost:3000/1.png HTTP/1.1
-
-
-### 获取文章列表
-GET http://localhost:3000/api/public/list?type=0&page=1&size=10&category=index&sort=created&status=0 HTTP/1.1
 
 
