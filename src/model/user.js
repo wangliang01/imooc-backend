@@ -70,11 +70,11 @@ const UserSchema = new mongoose.Schema({
   }
 })
 
-UserSchema.pre('save', function (next) {
-  this.created = dayjs().format('YYYY-MM-DD HH:mm:ss')
-  next()
-  this.email = this.username
-})
+// UserSchema.pre('save', function (next) {
+//   this.created = dayjs().format('YYYY-MM-DD HH:mm:ss')
+//   this.email = this.username
+//   next()
+// })
 
 UserSchema.pre('update', function (next) {
   this.updated = dayjs().format('YYYY-MM-DD HH:mm:ss')
@@ -82,6 +82,8 @@ UserSchema.pre('update', function (next) {
 })
 
 UserSchema.post('save', function (error, doc, next) {
+  this.created = dayjs().format('YYYY-MM-DD HH:mm:ss')
+  this.email = this.username
   if (error.name === 'MongoError' && error.code === 11000) {
     throw HttpException('该用户已存在', 10000, 400)
   }

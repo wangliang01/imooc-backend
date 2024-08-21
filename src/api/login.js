@@ -47,6 +47,9 @@ class LoginController {
     const params = await new LoginValidator(ctx).validate()
     // 1. 验证码校验
     const code = await getValue(params.sid)
+    if (!code) {
+      throw new HttpException('验证码已过期')
+    }
     if (code.toLowerCase() !== params.code.toLowerCase()) {
       throw new HttpException('验证码错误')
     }
@@ -68,7 +71,7 @@ class LoginController {
     // 3. 返回token
     const token = jwt.sign(
       {
-        uid: 1
+        uid: user._id
       },
       process.env.JWT_SECRET,
       { expiresIn: '1d' }
@@ -80,8 +83,8 @@ class LoginController {
     deleteFields(userInfo, ['password', '__v'])
 
     success(ctx, {
-      token,
-      ...userInfo
+      ...userInfo,
+      token
     })
   }
   async index(ctx) {

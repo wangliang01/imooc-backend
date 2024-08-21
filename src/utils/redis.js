@@ -37,13 +37,13 @@ export function setValue(key, value, expireTime) {
 }
 
 export function getValue(key) {
-  if (typeof key === 'undefined' || key === null || key === '') return
+  if (typeof key === 'undefined' || key === null || key === '') return ''
 
   return client.get(key)
 }
 
 export function getHValue(key) {
-  if (typeof key === 'undefined' || key === null || key === '') return
+  if (typeof key === 'undefined' || key === null || key === '') return ''
 
   return client.hGetAll(key)
 }
