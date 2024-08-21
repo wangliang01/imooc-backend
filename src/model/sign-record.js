@@ -31,7 +31,10 @@ SignRecordSchema.pre('update', function (next) {
   next()
 })
 
-SignRecordSchema.static('findByUid', async function (uid) {})
+SignRecordSchema.static('findByUid', async function (uid) {
+  const result = await this.findOne({ uid }).sort({ created: -1 })
+  return result
+})
 
 const SignRecord = mongoose.model('SignRecord', SignRecordSchema)
 
