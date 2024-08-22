@@ -11,23 +11,14 @@ const SignRecordSchema = new mongoose.Schema({
   created: {
     type: String
   },
-  fav: {
+  favs: {
     type: Number
-  },
-  lastSign: {
-    type: String
   }
 })
 
 // pre勾子函数
 SignRecordSchema.pre('save', function (next) {
   this.created = dayjs().format('YYYY-MM-DD HH:mm:ss')
-  this.lastSign = this.created
-  next()
-})
-
-SignRecordSchema.pre('update', function (next) {
-  this.lastSign = dayjs().format('YYYY-MM-DD HH:mm:ss')
   next()
 })
 

@@ -5,6 +5,8 @@ import jwt from 'jsonwebtoken'
 import { deleteFields, success } from '../utils/helper'
 import User from '../model/user'
 import bcrypt from 'bcryptjs'
+import SignRecord from '../model/sign-record'
+import dayjs from 'dayjs'
 class LoginController {
   async register(ctx) {
     const params = await new LoginValidator(ctx).validate()
@@ -68,6 +70,15 @@ class LoginController {
       throw new HttpException('账号或者密码错误')
     }
 
+    // 是否签到
+    let isSign = false
+    const record = await SignRecord.findByUid(user._id)
+    if (record) {
+      if (dayjs(record.created).isSame(dayjs(), 'day')) {
+        isSign = true
+      }
+    }
+
     // 3. 返回token
     const token = jwt.sign(
       {
@@ -84,6 +95,7 @@ class LoginController {
 
     success(ctx, {
       ...userInfo,
+      isSign,
       token
     })
   }

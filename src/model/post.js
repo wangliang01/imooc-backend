@@ -25,7 +25,7 @@ const PostSchema = new mongoose.Schema({
     type: String,
     required: false
   },
-  fav: {
+  favs: {
     type: Number,
     default: 0
   },

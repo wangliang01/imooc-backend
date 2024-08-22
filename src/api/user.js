@@ -5,20 +5,20 @@ import { success } from '../utils/helper'
 import dayjs from 'dayjs'
 class UserController {
   // 根据连续签到天数规则获取积分
-  async getFavs(tount) {
-    if (tount < 5) {
+  static async getFavs(count) {
+    if (count < 5) {
       return 5
     }
-    if (tount < 15) {
+    if (count < 15) {
       return 10
     }
-    if (tount < 30) {
+    if (count < 30) {
       return 15
     }
-    if (tount < 100) {
+    if (count < 100) {
       return 20
     }
-    if (tount < 365) {
+    if (count < 365) {
       return 30
     }
     return 50
@@ -30,6 +30,10 @@ class UserController {
     // 查询用户上一次签到记录
     const record = await SignRecord.findByUid(uid)
 
+    const user = await User.findById(uid)
+
+    let result = {}
+
     if (!record) {
       // 无签到数据
       // 保存用户的签到数据，签到记数 + 积分数据
@@ -40,8 +44,8 @@ class UserController {
           $inc: { favs: 5 }
         }
       )
-      await SignRecord.create({ uid, fav: 5, lastSign: dayjs().format('YYYY-MM-DD HH:mm:ss') })
-      return success(ctx, { count: 1, favs: 5 }, '签到成功')
+      await SignRecord.create({ uid, favs: user.favs + 5 })
+      return success(ctx, { count: 1, favs: user.favs + 5 }, '签到成功')
     }
 
     // 有历史签到数据
@@ -50,26 +54,34 @@ class UserController {
     if (dayjs(record.created).isSame(dayjs(), 'day')) {
       throw new HttpException('今天已经签到过了')
     }
-    // 如果当前时间的日期与用户上一次签到的日期相同，说明用户已经签到
-    if (dayjs(record.lastSign).isSame(dayjs(), 'day')) {
-      throw new HttpException('今天已经签到过了')
-    }
 
     // 判断连续签到
-    if (dayjs(record.lastSign).isSame(dayjs().subtract(1, 'day'), 'day')) {
+    if (dayjs(record.created).isSame(dayjs().subtract(1, 'day'), 'day')) {
+      const favs = await UserController.getFavs(user.count + 1)
       // 签到积分规则
-    }
+      // 保存用户的签到数据，签到记数 + 积分数据
+      await User.updateOne(
+        { _id: uid },
+        {
+          $inc: { count: 1, favs }
+        }
+      )
 
-    const user = await User.findById(uid)
-    const count = user.count
-    const favs = this.getFavs(count)
-    // 保存用户的签到数据，签到记数 + 积分数据
-    await User.updateOne(
-      { _id: uid },
-      {
-        $inc: { count: 1, favs }
-      }
-    )
+      result = { count: user.count + 1, favs: user.favs + favs }
+    } else {
+      // 用户中断连续签到
+      await User.updateOne(
+        { _id: uid },
+        {
+          $set: { count: 1 },
+          $inc: { favs: 5 }
+        }
+      )
+
+      result = { count: 1, favs: user.favs + 5 }
+    }
+    await SignRecord.create({ uid, ...result })
+    return success(ctx, result, '签到成功')
   }
 }
 
