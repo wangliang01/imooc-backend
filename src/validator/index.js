@@ -30,3 +30,18 @@ export class ContentValidator extends KoaValidator {
     super(ctx, rules)
   }
 }
+
+// 用户基础资料校验器
+export class UserBasicValidator extends KoaValidator {
+  constructor(ctx) {
+    const rules = {
+      username: yup.string().required({ message: '请输入用户名' }).email({ message: '请输入正确的邮箱' }),
+      nickname: yup.string().required({ message: '请输入昵称' }),
+      location: yup.string().required({ message: '请输入城市' }).optional(),
+      regmark: yup.string().required({ message: '请输入备注' }).optional(),
+      gender: yup.string().required({ message: '请选择性别' }).optional()
+    }
+
+    super(ctx, rules)
+  }
+}

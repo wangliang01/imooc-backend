@@ -1,4 +1,4 @@
-import 'babel-register'
+// import 'babel-register'
 import './utils/env'
 import path from 'path'
 import Koa from 'koa'

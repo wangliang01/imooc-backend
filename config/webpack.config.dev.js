@@ -1,5 +1,5 @@
-const { merge } = require('webpack-merge');
-const webpackBaseConfig = require('./webpack.config.base');
+const { merge } = require('webpack-merge')
+const webpackBaseConfig = require('./webpack.config.base')
 
 const webpackConfig = merge(webpackBaseConfig, {
   mode: 'development',
@@ -7,5 +7,4 @@ const webpackConfig = merge(webpackBaseConfig, {
   stats: { children: false }
 })
 
-
-module.exports = webpackConfig;
+module.exports = webpackConfig

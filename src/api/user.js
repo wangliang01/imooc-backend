@@ -3,6 +3,7 @@ import SignRecord from '../model/sign-record'
 import { HttpException } from '../utils/httpException'
 import { success } from '../utils/helper'
 import dayjs from 'dayjs'
+import { UserBasicValidator } from '../validator'
 class UserController {
   // 根据连续签到天数规则获取积分
   static async getFavs(count) {
@@ -82,6 +83,27 @@ class UserController {
     }
     await SignRecord.create({ uid, ...result })
     return success(ctx, result, '签到成功')
+  }
+  async updateBasicInfo(ctx) {
+    const v = await new UserBasicValidator(ctx).validate()
+    console.log('v', v)
+    const { uid } = ctx.state.user
+    const user = await User.findOne({ _id: uid })
+    if (!user) {
+      throw new HttpException('用户不存在')
+    }
+    if (v.username !== user.username) {
+      // 发磅邮件进行验证
+      throw new HttpException('用户名已存在')
+    } else {
+      await User.updateOne(
+        { _id: uid },
+        {
+          $set: { ...v }
+        }
+      )
+      success(ctx, null, '更新成功')
+    }
   }
 }
 

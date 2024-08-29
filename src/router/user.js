@@ -7,4 +7,6 @@ const router = new Router({
 
 router.get('/user/fav', UserController.userSign)
 
+router.post('/user/update/basicInfo', UserController.updateBasicInfo)
+
 export default router

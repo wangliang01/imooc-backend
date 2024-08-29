@@ -16,7 +16,10 @@
         "<node_internals>/**"
       ],
       "type": "node",
-      "runtimeArgs": ["--exec", "babel-node"]
+      "runtimeArgs": [
+        "--exec",
+        "babel-node"
+      ]
     }
   ]
 }
