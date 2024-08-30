@@ -7,6 +7,7 @@ import User from '../model/user'
 import bcrypt from 'bcryptjs'
 import SignRecord from '../model/sign-record'
 import dayjs from 'dayjs'
+import { generateToken } from '../utils/jwt'
 class LoginController {
   async register(ctx) {
     const params = await new LoginValidator(ctx).validate()
@@ -80,13 +81,14 @@ class LoginController {
     }
 
     // 3. 返回token
-    const token = jwt.sign(
-      {
-        uid: user._id
-      },
-      process.env.JWT_SECRET,
-      { expiresIn: '1d' }
-    )
+    const token = generateToken({ uid: user._id })
+    // const token = jwt.sign(
+    //   {
+    //     uid: user._id
+    //   },
+    //   process.env.JWT_SECRET,
+    //   { expiresIn: '1d' }
+    // )
 
     // const userInfo = user._doc
     const userInfo = user.toJSON()
@@ -98,6 +100,9 @@ class LoginController {
       isSign,
       token
     })
+  }
+  async forget(ctx) {
+    // const params = await new LoginValidator(ctx).validate()
   }
   async index(ctx) {
     // throw new HttpException('参数错误', 10000, 400)

@@ -4,6 +4,10 @@ import { HttpException } from '../utils/httpException'
 import { success } from '../utils/helper'
 import dayjs from 'dayjs'
 import { UserBasicValidator } from '../validator'
+import send from '../service/mail/index'
+import { v4 as uuid } from 'uuid'
+import { setValue } from '../utils/redis'
+import { generateToken } from '../utils/jwt'
 class UserController {
   // 根据连续签到天数规则获取积分
   static async getFavs(count) {
@@ -93,8 +97,18 @@ class UserController {
       throw new HttpException('用户不存在')
     }
     if (v.username !== user.username) {
-      // 发磅邮件进行验证
-      throw new HttpException('用户名已存在')
+      const key = uuid()
+      setValue(key, generateToken({ uid: user._id }), '30m')
+      // 发邮件进行验证
+      const result = await send({
+        type: 'email',
+        key,
+        expire: dayjs().add(30, 'minutes').format('YYYY-MM-DD HH:mm:ss'),
+        email: user.username,
+        user: v.nickname
+      })
+      console.log('result', result)
+      success(ctx, null, '发送验证邮件成功, 请点击链接修改邮件账号')
     } else {
       await User.updateOne(
         { _id: uid },
