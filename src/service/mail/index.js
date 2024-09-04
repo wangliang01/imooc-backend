@@ -1,6 +1,7 @@
 import artTemplate from 'art-template'
 import nodemailer from 'nodemailer'
 import path from 'path'
+import qs from 'qs'
 import { JSDOM } from 'jsdom'
 
 const transporter = nodemailer.createTransport({
@@ -25,10 +26,10 @@ const send = async (sendInfo) => {
 
   let html = ''
   if (sendInfo.type === 'reset') {
-    url = `${baseUrl}/#/reset?key=${sendInfo.key}`
+    url = `${baseUrl}/#/reset?${qs.stringify(sendInfo.data)}`
     html = artTemplate(path.join(__dirname, './template/reset.html'), { ...data, url })
   } else if (sendInfo.type === 'email') {
-    url = `${baseUrl}/#/email?key=${sendInfo.key}`
+    url = `${baseUrl}/#/email?${qs.stringify(sendInfo.data)}`
     html = artTemplate(path.join(__dirname, './template/email.html'), { ...data, url })
   }
 

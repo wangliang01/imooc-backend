@@ -6,8 +6,9 @@ import dayjs from 'dayjs'
 import { UserBasicValidator } from '../validator'
 import send from '../service/mail/index'
 import { v4 as uuid } from 'uuid'
-import { setValue } from '../utils/redis'
+import { setValue, getValue } from '../utils/redis'
 import { generateToken } from '../utils/jwt'
+import jwt from 'jsonwebtoken'
 class UserController {
   // 根据连续签到天数规则获取积分
   static async getFavs(count) {
@@ -96,13 +97,20 @@ class UserController {
     if (!user) {
       throw new HttpException('用户不存在')
     }
+    const tempUser = await User.findOne({ username: v.username })
+    if (tempUser) {
+      throw new HttpException('该用户名已存在')
+    }
     if (v.username !== user.username) {
       const key = uuid()
       setValue(key, generateToken({ uid: user._id }), '30m')
       // 发邮件进行验证
       const result = await send({
         type: 'email',
-        key,
+        data: {
+          username: v.username,
+          key
+        },
         expire: dayjs().add(30, 'minutes').format('YYYY-MM-DD HH:mm:ss'),
         email: user.username,
         user: v.nickname
@@ -117,6 +125,22 @@ class UserController {
         }
       )
       success(ctx, null, '更新成功')
+    }
+  }
+  async updateUsername(ctx) {
+    const body = ctx.query
+    if (body.key) {
+      const token = await getValue(body.key)
+      if (token) {
+        try {
+          const decoded = jwt.verify(token, process.env.JWT_SECRET)
+          const { uid } = decoded
+          await User.updateOne({ _id: uid }, { $set: { username: body.username } })
+          success(ctx, null, '更新用户名成功')
+        } catch (error) {
+          console.error(error)
+        }
+      }
     }
   }
 }
